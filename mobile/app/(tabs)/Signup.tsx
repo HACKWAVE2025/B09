@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import * as Font from "expo-font";
 
 const SignupPage: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -17,6 +18,17 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        PressStart2P: require("../../assets/fonts/PressStart2P-Regular.ttf"),
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
+  }, []);
 
   const handleSubmit = async () => {
     if (!name || !email || !password) {
@@ -27,7 +39,6 @@ const SignupPage: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch("http://192.168.137.1:5000/api/users/register", {
-        // Use 10.0.2.2 for Android emulator, localhost for web
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -45,16 +56,24 @@ const SignupPage: React.FC = () => {
     }
   };
 
+  if (!fontLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2e7d32" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Ionicons name="leaf" size={64} color="#34c759" />
+      <Ionicons name="leaf" size={64} color="#2e7d32" />
       <Text style={styles.title}>Join EcoQuest</Text>
       <Text style={styles.subtitle}>Create your eco-friendly account 🌍</Text>
 
       <TextInput
         style={styles.input}
         placeholder="Full Name"
-        placeholderTextColor="#999"
+        placeholderTextColor="#777"
         value={name}
         onChangeText={setName}
       />
@@ -62,7 +81,7 @@ const SignupPage: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Email"
-        placeholderTextColor="#999"
+        placeholderTextColor="#777"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -72,17 +91,13 @@ const SignupPage: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
-        placeholderTextColor="#999"
+        placeholderTextColor="#777"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSubmit}
-        disabled={loading}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
@@ -106,51 +121,68 @@ export default SignupPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#f7fdf8",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 24,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f7fdf8",
+  },
   title: {
-    fontSize: 28,
-    color: "#fff",
-    fontWeight: "bold",
+    fontFamily: "PressStart2P",
+    fontSize: 18,
+    color: "#1b5e20",
     marginTop: 10,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 16,
-    color: "#bbb",
+    fontFamily: "PressStart2P",
+    fontSize: 8,
+    color: "#388e3c",
     marginBottom: 30,
+    textAlign: "center",
   },
   input: {
     width: "100%",
-    backgroundColor: "#1e1e1e",
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 14,
     marginBottom: 15,
-    color: "#fff",
-    fontSize: 16,
+    color: "#000",
+    fontFamily: "PressStart2P",
+    fontSize: 8,
+    borderWidth: 1,
+    borderColor: "#a5d6a7",
   },
   button: {
     width: "100%",
-    backgroundColor: "#34c759",
+    backgroundColor: "#2e7d32",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
+    shadowColor: "#2e7d32",
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "PressStart2P",
+    fontSize: 10,
   },
   link: {
-    color: "#34c759",
+    color: "#2e7d32",
     marginTop: 20,
-    fontSize: 14,
+    fontFamily: "PressStart2P",
+    fontSize: 8,
   },
   backLink: {
-    color: "#888",
+    color: "#4e4e4e",
     marginTop: 10,
-    fontSize: 13,
+    fontFamily: "PressStart2P",
+    fontSize: 8,
   },
 });
