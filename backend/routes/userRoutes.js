@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import Badge from "../models/Badge.js"; 
 const router = express.Router();
 
 // Register user
