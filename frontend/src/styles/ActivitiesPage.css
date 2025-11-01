@@ -1,65 +1,101 @@
 /* ===== PAGE SETUP ===== */
 .activities-page {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Press Start 2P', cursive;
-    overflow: hidden;
-    position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Press Start 2P", cursive;
+  overflow: hidden;
+  position: relative;
 }
 
 /* ===== PIXELATED GIF BACKGROUNDS ===== */
 .activities-dark {
-    background: url('/waterfall.gif') center center/cover no-repeat;
-    image-rendering: pixelated;
-    color: #fff;
+  background: url("/waterfall.gif") center center/cover no-repeat;
+  image-rendering: pixelated;
+  color: #fff;
 }
 
 .activities-light {
-    background: url('/morning.gif') center center/cover no-repeat;
-    image-rendering: pixelated;
-    color: #000;
+  background: url("/morning.gif") center center/cover no-repeat;
+  image-rendering: pixelated;
+  color: #000;
 }
 
 /* ===== CONTAINER CARD ===== */
 .activities-container {
-    z-index: 1;
-    width: 100%;
-    max-width: 500px;
+  z-index: 1;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .activities-card {
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 1rem;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  max-height: 85vh; /* prevents overflow after upload */
 }
 
-/* Adjust card color for light theme */
+/* Light mode card adjustment */
 .activities-light .activities-card {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #000;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
 }
 
 /* ===== FORM ELEMENTS ===== */
 .activities-card input,
 .activities-card select {
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .activities-card .btn {
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: transform 0.2s ease;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: transform 0.2s ease;
 }
 
 .activities-card .btn:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+
+/* ===== IMAGE PREVIEW ===== */
+.preview-section {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview-image {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  border-radius: 0.8rem;
+  border: 2px solid #ccc;
+  object-fit: cover;
+}
+
+/* ===== GEO + TIME INFO ===== */
+.geo-info {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 0.8rem;
+  padding: 0.6rem 1rem;
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.activities-light .geo-info {
+  background-color: rgba(0, 0, 0, 0.05);
 }
