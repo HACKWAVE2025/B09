@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaLeaf, FaTrophy, FaUsers } from "react-icons/fa";
 import AOS from "aos";

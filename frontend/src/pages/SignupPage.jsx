@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLeaf } from "react-icons/fa";
@@ -18,6 +19,7 @@ const SignupPage = () => {
   };
 
   // Toggle theme
+  // eslint-disable-next-line no-unused-vars
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
