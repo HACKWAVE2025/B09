@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLeaf } from "react-icons/fa";
