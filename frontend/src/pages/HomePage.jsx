@@ -80,7 +80,7 @@ const HomePage = () => {
         className="features container py-5 text-center"
         data-aos="fade-up"
       >
-        <h2 className="fw-bold mb-4">Why Join GoGreen Quest?</h2>
+        <h2 className="fw-bold mb-4">Why Join EcoQuest?</h2>
         <div className="row">
           <div className="col-md-4 mb-4">
             <div
@@ -174,7 +174,7 @@ const HomePage = () => {
         className={`py-4 text-center ${theme === "dark" ? "bg-dark text-muted" : "bg-light text-secondary"
           }`}
       >
-        <div>© 2025 GoGreen Quest | Built with 💚 by Code_Smashers</div>
+        <div>© 2025 EcoQuest | Built with 💚 by Neural Networks</div>
       </footer>
     </div>
   );
