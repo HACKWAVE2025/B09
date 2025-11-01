@@ -4,11 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import type { DrawerNavigationOptions } from "@react-navigation/drawer";
-
 export default function DrawerLayout() {
   const colorScheme = useColorScheme();
-
   return (
     <Drawer
       screenOptions={{

@@ -9,7 +9,7 @@ import SignupPage from "./pages/SignupPage";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import DailyQuest from "./pages/DailyQuest";
 import EcoCrush from "./pages/EcoCrush"; // 🌿 IMPORT THE GAME PAGE
-
+import EcoChatbot from "./components/EchoChatBot"; // 🌿 IMPORT THE CHATBOT COMPONENT
 const App = () => {
   return (
     <Router>
@@ -20,12 +20,12 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/activity" element={<ActivitiesPage />} />
-          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/dailyquest" element={<DailyQuest />} />
           <Route path="/ecocrush" element={<EcoCrush />} /> {/* 🌿 ADD THE ROUTE */}
-
         </Routes>
+        <EcoChatbot />
       </Layout>
     </Router>
   );
