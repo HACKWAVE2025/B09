@@ -8,12 +8,23 @@ export default function GameGrid({ onOpenChallenge }) {
     const today = new Date().getDate();
     const monthName = new Date().toLocaleString("default", { month: "long" });
 
-    const [completedDays, setCompletedDays] = useState(() => {
-        return JSON.parse(localStorage.getItem("ecoCompletedDays")) || [];
+    // 🌿 --- MODIFIED --- 🌿
+    // Get user data from local storage (which was saved from Mongo on login)
+    const [user, setUser] = useState(() => {
+        return JSON.parse(localStorage.getItem("user")) || null;
     });
 
+    // Get the highest level completed from the user object. Default to 0.
+    const highestCompletedLevel = user ? user.highestCompletedLevel : 0;
+    // 🌿 --- END MODIFICATION --- 🌿
+
+
     const handleDayClick = (day) => {
-        if (day > today) return;
+        // 🌿 --- MODIFIED --- 🌿
+        // Block clicks on future days OR days that are not yet unlocked (more than 1 level ahead)
+        if (day > today || day > highestCompletedLevel + 1) return;
+        // 🌿 --- END MODIFICATION --- 🌿
+
         onOpenChallenge(day);
     };
 
@@ -34,8 +45,13 @@ export default function GameGrid({ onOpenChallenge }) {
                 <div className="levels">
                     {Array.from({ length: daysInMonth }, (_, i) => {
                         const day = i + 1;
+
+                        // 🌿 --- MODIFIED --- 🌿
+                        // Determine status based on user data from database
                         const isLocked = day > today;
-                        const isComplete = completedDays.includes(day);
+                        const isComplete = day <= highestCompletedLevel;
+                        const isClickable = day <= today && day === highestCompletedLevel + 1;
+                        // 🌿 --- END MODIFICATION --- 🌿
 
                         // Zigzag positioning for levels (alternating left/right)
                         const positionStyle = {
@@ -48,7 +64,7 @@ export default function GameGrid({ onOpenChallenge }) {
                                 key={day}
                                 className={`level-node ${isLocked ? "locked" : ""} ${isComplete ? "completed" : ""}`}
                                 style={positionStyle}
-                                whileTap={!isLocked ? { scale: 0.9 } : {}}
+                                whileTap={!isLocked && (isClickable || isComplete) ? { scale: 0.9 } : {}}
                                 onClick={() => handleDayClick(day)}
                             >
                                 {isLocked ? (
