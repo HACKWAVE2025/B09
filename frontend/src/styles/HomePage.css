@@ -78,26 +78,7 @@ html {
   margin-top: 0.5rem !important;
 }
 
-/* Floating icons */
-.hero::before {
-  content: "♻";
-  position: absolute;
-  font-size: 5rem;
-  top: 15%;
-  left: 10%;
-  opacity: 0.15;
-  animation: float 4s ease-in-out infinite;
-}
 
-.hero::after {
-  content: "🌍";
-  position: absolute;
-  font-size: 6rem;
-  bottom: 10%;
-  right: 15%;
-  opacity: 0.15;
-  animation: float 5s ease-in-out infinite;
-}
 
 @keyframes float {
 

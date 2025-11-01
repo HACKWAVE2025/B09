@@ -1,8 +1,9 @@
 // src/pages/DailyQuest.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { FaLeaf } from "react-icons/fa";
 import "../styles/DailyQuest.css";
+import { ThemeContext } from "../context/ThemeContext";
 
 const allActivities = [
   { name: "Recycled Trash", id: 1 },
@@ -13,13 +14,13 @@ const allActivities = [
 ];
 
 const DailyQuest = () => {
+  const { theme } = useContext(ThemeContext); // ← use global theme
   const [dailyQuests, setDailyQuests] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [bonusGiven, setBonusGiven] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // ✅ Pick 3 random daily quests — once per day
+  // Pick 3 random daily quests — once per day
   useEffect(() => {
     const today = new Date().toDateString();
     const storedData = JSON.parse(localStorage.getItem("dailyQuestsData") || "{}");
@@ -34,13 +35,13 @@ const DailyQuest = () => {
     }
   }, []);
 
-  // ✅ Load completed activities from localStorage
+  // Load completed activities from localStorage
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("completedActivities") || "[]");
     setCompleted(stored);
   }, []);
 
-  // ✅ Listen for changes to localStorage (real-time update)
+  // Listen for changes to completed activities (so other tabs/components can update this)
   useEffect(() => {
     const handleStorageChange = () => {
       const updated = JSON.parse(localStorage.getItem("completedActivities") || "[]");
@@ -50,7 +51,7 @@ const DailyQuest = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // ✅ Auto-award bonus when all 3 are done
+  // Auto-award bonus when all 3 are done
   useEffect(() => {
     if (dailyQuests.length === 3) {
       const completedToday = dailyQuests.filter((q) => completed.includes(q.name));
@@ -59,6 +60,7 @@ const DailyQuest = () => {
         setBonusGiven(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [completed, dailyQuests]);
 
   const awardBonusPoints = async () => {
@@ -118,11 +120,7 @@ const DailyQuest = () => {
         {dailyQuests.length > 0 && (
           <>
             {dailyQuests.filter((q) => completed.includes(q.name)).length < 3 ? (
-              <p
-                className={`mt-3 fw-semibold ${
-                  theme === "dark" ? "text-white" : "text-muted"
-                }`}
-              >
+              <p className={`mt-3 fw-semibold ${theme === "dark" ? "text-white" : "text-muted"}`}>
                 ✅ Complete all 3 to unlock your daily bonus!
               </p>
             ) : (
