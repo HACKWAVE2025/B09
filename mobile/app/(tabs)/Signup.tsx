@@ -37,7 +37,7 @@ const SignupPage: React.FC = () => {
       if (!res.ok) throw new Error(data.message || "Registration failed");
 
       Alert.alert("Success", "Registration successful! Please login.");
-      navigation.navigate("Login");
+      navigation.navigate("LoginPage");
     } catch (err: any) {
       Alert.alert("Signup Failed", err.message);
     } finally {

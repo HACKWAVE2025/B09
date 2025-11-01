@@ -1,59 +1,57 @@
-import { Tabs } from "expo-router";
 import React from "react";
+import { Drawer } from "expo-router/drawer";
 import { Ionicons } from "@expo/vector-icons";
-import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import type { DrawerNavigationOptions } from "@react-navigation/drawer";
 
-export default function TabLayout() {
+export default function DrawerLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
+    <Drawer
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
+        headerShown: true,
+        drawerActiveTintColor: Colors[colorScheme ?? "light"].tint,
       }}
     >
-      <Tabs.Screen
+      <Drawer.Screen
         name="HomeScreen"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }: { color: string; size: number }) => (
             <IconSymbol size={size} name="house.fill" color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="LoginPage"
         options={{
           title: "Login",
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="log-in-outline" size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="Signup"
         options={{
           title: "Signup",
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }: { color: string; size: number }) => (
             <IconSymbol size={size} name="paperplane.fill" color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="Leaderboard"
         options={{
           title: "Leaderboard",
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }: { color: string; size: number }) => (
             <Ionicons name="bar-chart" size={size} color={color} />
           ),
         }}
       />
-      
-    </Tabs>
+    </Drawer>
   );
 }

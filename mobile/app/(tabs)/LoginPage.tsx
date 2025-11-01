@@ -67,7 +67,7 @@ const LoginPage: React.FC = () => {
 
     const closeFactAndRedirect = () => {
         setShowFact(false);
-        navigation.navigate("Home");
+        navigation.navigate("HomeScreen");
     };
 
     return (
