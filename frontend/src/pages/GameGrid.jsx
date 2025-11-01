@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaLock, FaCheckCircle, FaLeaf } from "react-icons/fa";
 import "../styles/GameGrid.css";
@@ -10,6 +11,7 @@ export default function GameGrid({ onOpenChallenge }) {
 
     // 🌿 --- MODIFIED --- 🌿
     // Get user data from local storage (which was saved from Mongo on login)
+    // eslint-disable-next-line no-unused-vars
     const [user, setUser] = useState(() => {
         return JSON.parse(localStorage.getItem("user")) || null;
     });

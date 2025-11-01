@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
             .join(". ");
 
         // include user's name in the prompt
-        const prompt = `Summarize these events for ${name} and make it into an eco-friendly story: ${content}`;
+        const prompt = `Summarize these events for ${name} and make it into an eco-friendly story within 100 words: ${content}`;
 
         const summary = await summarizeContent(prompt);
 
