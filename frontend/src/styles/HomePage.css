@@ -1,0 +1,267 @@
+/* ===== IMPORT FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body,
+html,
+.homepage,
+.hero,
+.feature-card,
+.leaderboard-preview,
+footer,
+.navbar,
+.nav-link,
+h1,
+h2,
+h5,
+p,
+table,
+th,
+td,
+a,
+button {
+  font-family: 'Press Start 2P', cursive !important;
+  transition: color 0.4s ease, background 0.4s ease;
+}
+
+/* ===== RESET ===== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ===== THEMES ===== */
+[data-theme="dark"] {
+  color: #ffffff;
+}
+
+[data-theme="light"] {
+  color: #000000;
+}
+
+/* ===== HERO ===== */
+.hero {
+  height: 90vh;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.hero-dark {
+  background: url('/night.gif') no-repeat center center/cover;
+}
+
+.hero-light {
+  background: url('/morning.gif') no-repeat center center/cover;
+}
+
+/* Text layers */
+.hero>* {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 span {
+  display: block;
+  line-height: 1.4;
+}
+
+.hero h1 .mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+/* Floating icons */
+
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* ===== FEATURE CARDS ===== */
+.feature-card {
+  border-radius: 1rem;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-card h5,
+.feature-card p {
+  color: inherit !important;
+}
+
+/* ===== LEADERBOARD ===== */
+.leaderboard-preview {
+  transition: background 0.4s ease;
+}
+
+table,
+th,
+td {
+  color: inherit !important;
+}
+
+/* ===== NAVBAR ===== */
+.nav-link,
+.navbar-brand,
+.btn,
+.btn-outline-secondary {
+  color: inherit !important;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  font-size: 0.8rem;
+  color: inherit !important;
+}
+
+/* ===== BLACK & LEAF GREEN DARK THEME ===== */
+
+/* Apply a pure black background to the entire page */
+[data-theme="dark"] html,
+[data-theme="dark"] body {
+  background-color: #000000;
+  /* Pure Black */
+  color: #e0e0e0;
+}
+
+/* --- Hero Section --- */
+[data-theme="dark"] .hero h1 {
+  text-shadow:
+    0 0 8px rgba(34, 139, 34, 0.6),
+    0 0 12px rgba(34, 139, 34, 0.4);
+}
+
+[data-theme="dark"] .hero h1 .go-green-dark {
+  color: #228B22 !important;
+  /* Dark Leaf Green */
+}
+
+/* --- Navbar --- */
+[data-theme="dark"] .navbar {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  /* Semi-transparent black */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(34, 139, 34, 0.3);
+}
+
+[data-theme="dark"] .navbar .nav-link,
+[data-theme="dark"] .navbar .navbar-brand {
+  color: #fff !important;
+}
+
+/* --- Buttons --- */
+[data-theme="dark"] .btn-success {
+  background-color: #228B22 !important;
+  border-color: #228B22 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 15px rgba(34, 139, 34, 0.5);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .btn-success:hover {
+  box-shadow: 0 0 25px rgba(34, 139, 34, 0.8);
+  transform: scale(1.05);
+}
+
+/* --- Section Titles --- */
+[data-theme="dark"] .features h2,
+[data-theme="dark"] .leaderboard-preview h2 {
+  color: #228B22 !important;
+  text-shadow: 0 0 5px rgba(34, 139, 34, 0.5);
+}
+
+/* --- Feature Cards --- */
+[data-theme="dark"] .feature-card {
+  background: linear-gradient(145deg, #1e1e1e, #121212);
+  /* Dark grays */
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .feature-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  border-color: #228B22;
+  box-shadow: 0 0 20px rgba(34, 139, 34, 0.4);
+}
+
+[data-theme="dark"] .feature-card .fs-1 {
+  color: #228B22 !important;
+}
+
+/* --- Leaderboard Section --- */
+[data-theme="dark"] .leaderboard-preview {
+  background-color: transparent;
+}
+
+[data-theme="dark"] .leaderboard-preview table {
+  background-color: #121212;
+  border: 1px solid #2a2a2a;
+}
+
+[data-theme="dark"] .leaderboard-preview table th {
+  color: #228B22 !important;
+}
+
+[data-theme="dark"] .leaderboard-preview table td {
+  color: #e0e0e0 !important;
+}
+
+/* --- Footer --- */
+[data-theme="dark"] footer {
+  background-color: #000000;
+  color: #cbd5e1 !important;
+  border-top: 1px solid rgba(34, 139, 34, 0.3);
+}
+
+/* ===== FIX RIGHT SIDE GAP ===== */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.homepage {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure hero section and navbar fill full width with no gap */
+.hero,
+.navbar,
+footer {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== CUSTOM COLOR FIX FOR GO GREEN TEXT ===== */
+.hero h1 .go-green-light {
+  color: #FFD700 !important;
+  /* Golden color for light mode */
+}
+
+.hero h1 .go-green-dark {
+  color: #28a745 !important;
+}

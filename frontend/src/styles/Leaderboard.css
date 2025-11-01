@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ===== GLOBAL ===== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: 'Press Start 2P', cursive !important;
+  overflow-x: hidden;
+}
+
+/* ===== PAGE BACKGROUND ===== */
+.leaderboard-page {
+  min-height: 100vh;
+  width: 100%;
+  background: url('/car.gif') center center / cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 1rem 3rem;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+/* ===== CONTAINER ===== */
+.leaderboard-container {
+  background-color: rgba(0, 0, 0, 0.75);
+  /* dark overlay */
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  color: #000;
+  /* default text inside container is black */
+}
+
+/* ===== TITLE ===== */
+.leaderboard-title {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(40, 167, 69, 0.8);
+  color: #a3e635;
+  margin-bottom: 2rem;
+}
+
+/* ===== TABLE ===== */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* semi-transparent table */
+  border-radius: 0.8rem;
+  overflow: hidden;
+  color: #000;
+  /* table text black */
+}
+
+.leaderboard-table th {
+  font-size: 0.7rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  background: rgba(40, 167, 69, 0.3);
+  /* semi-transparent header */
+  color: #000;
+  /* black header text */
+}
+
+.leaderboard-table td {
+  font-size: 0.75rem;
+  padding: 1rem;
+  color: #000;
+  /* black row text */
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.leader-row:hover {
+  transform: scale(1.03);
+  background-color: rgba(40, 167, 69, 0.2);
+}
+
+/* ===== SPECIFIC ELEMENT COLORS ===== */
+.rank,
+.player-name,
+.points {
+  font-weight: bold;
+  color: #000;
+  /* ensures rank, name, points are black */
+}
+
+.loading-text {
+  padding: 2rem;
+  opacity: 0.9;
+  color: #000;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .leaderboard-container {
+    padding: 1rem;
+  }
+
+  .leaderboard-title {
+    font-size: 0.8rem;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    font-size: 0.6rem;
+    padding: 0.6rem;
+  }
+}
