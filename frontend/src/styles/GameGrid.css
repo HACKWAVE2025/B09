@@ -1,0 +1,64 @@
+.calendar-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #e8f5e9, #f1f8e9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding-top: 3rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.calendar-container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 1.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    gap: 12px;
+    justify-content: center;
+}
+
+.day-tile {
+    width: 60px;
+    height: 60px;
+    background-color: #a5d6a7;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #1b5e20;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.day-tile:hover {
+    transform: translateY(-4px);
+    background-color: #81c784;
+}
+
+.day-tile.locked {
+    background-color: #d7ccc8;
+    color: #6d4c41;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.day-tile.completed {
+    background-color: #43a047;
+    color: white;
+    transform: scale(1.05);
+}
+
+.calendar-container p {
+    margin-top: 1.5rem;
+    color: #424242;
+    font-size: 1rem;
+}

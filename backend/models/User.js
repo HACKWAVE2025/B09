@@ -13,8 +13,10 @@ const userSchema = new mongoose.Schema(
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         points: { type: Number, default: 0 },
+        gamePoints: { type: Number, default: 0 },
+        highestCompletedLevel: { type: Number, default: 0 }, // 🌿 NEW FIELD ADDED
         badges: [{ type: mongoose.Schema.Types.ObjectId, ref: "Badge" }],
-        calendar: [calendarEventSchema], // 🌿 new field added here
+        calendar: [calendarEventSchema],
     },
     { timestamps: true }
 );
