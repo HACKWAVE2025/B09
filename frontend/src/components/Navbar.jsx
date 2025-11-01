@@ -7,12 +7,28 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const [user, setUser] = useState(null);
 
+  // 1. Set initial state directly from localStorage using an initializer function
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("user") || "null");
+  });
+
+  // 2. Add an effect to listen for storage changes
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-    setUser(storedUser);
-  }, []);
+    const handleStorageChange = () => {
+      // When storage changes, update the user state
+      const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+      setUser(storedUser);
+    };
+
+    // Add the event listener
+    window.addEventListener("storage", handleStorageChange);
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <nav

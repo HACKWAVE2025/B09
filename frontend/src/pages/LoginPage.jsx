@@ -68,7 +68,7 @@ const LoginPage = () => {
 
       // Save user info
       localStorage.setItem("user", JSON.stringify(data.user));
-
+      window.dispatchEvent(new Event("storage"));
       // Pick a random eco fact
       const randomFact = ecoFacts[Math.floor(Math.random() * ecoFacts.length)];
       setEcoFact(randomFact);
