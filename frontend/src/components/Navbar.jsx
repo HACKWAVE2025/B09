@@ -55,6 +55,7 @@ const Navbar = () => {
             <li className="nav-item"><a className="nav-link" href="/activity">Activity</a></li>
             <li className="nav-item"><a className="nav-link" href="/leaderboard">Leaderboard</a></li>
             <li className="nav-item"><a className="nav-link" href="/dailyquest">Daily-Quest</a></li>
+            <li className="nav-item"><a className="nav-link" href="/ecocrush">EcoCrush</a></li> {/* 🌿 ADDED LINK */}
 
             <li className="nav-item">
               {user ? (

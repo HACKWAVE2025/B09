@@ -8,6 +8,8 @@ import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import DailyQuest from "./pages/DailyQuest";
+import EcoCrush from "./pages/EcoCrush"; // 🌿 IMPORT THE GAME PAGE
+
 const App = () => {
   return (
     <Router>
@@ -21,6 +23,7 @@ const App = () => {
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/dailyquest" element={<DailyQuest />} />
+          <Route path="/ecocrush" element={<EcoCrush />} /> {/* 🌿 ADD THE ROUTE */}
 
         </Routes>
       </Layout>
