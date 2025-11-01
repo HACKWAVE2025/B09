@@ -1,6 +1,4 @@
-// src/pages/DailyQuest.jsx
 import React, { useEffect, useState, useContext } from "react";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaLeaf } from "react-icons/fa";
 import "../styles/DailyQuest.css";
@@ -15,34 +13,39 @@ const allActivities = [
 ];
 
 const DailyQuest = () => {
-  const { theme } = useContext(ThemeContext); // ← use global theme
+  const { theme } = useContext(ThemeContext);
   const [dailyQuests, setDailyQuests] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [bonusGiven, setBonusGiven] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // Pick 3 random daily quests — once per day
   useEffect(() => {
     const today = new Date().toDateString();
     const storedData = JSON.parse(localStorage.getItem("dailyQuestsData") || "{}");
 
-    if (storedData.date === today && storedData.quests) {
-      setDailyQuests(storedData.quests);
-    } else {
-      const shuffled = [...allActivities].sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, 3);
+    // ✅ Always reset if old date OR wrong number of quests
+    if (
+      !storedData.date ||
+      storedData.date !== today ||
+      !Array.isArray(storedData.quests) ||
+      storedData.quests.length !== 2
+    ) {
+      const shuffled = [...allActivities].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, 2); // Always pick exactly 2
       setDailyQuests(selected);
       localStorage.setItem("dailyQuestsData", JSON.stringify({ date: today, quests: selected }));
+    } else {
+      setDailyQuests(storedData.quests);
     }
   }, []);
 
-  // Load completed activities from localStorage
+  // Load completed tasks
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("completedActivities") || "[]");
     setCompleted(stored);
   }, []);
 
-  // Listen for changes to completed activities (so other tabs/components can update this)
+  // Sync across tabs
   useEffect(() => {
     const handleStorageChange = () => {
       const updated = JSON.parse(localStorage.getItem("completedActivities") || "[]");
@@ -52,11 +55,11 @@ const DailyQuest = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // Auto-award bonus when all 3 are done
+  // Auto award bonus
   useEffect(() => {
-    if (dailyQuests.length === 3) {
+    if (dailyQuests.length === 2) {
       const completedToday = dailyQuests.filter((q) => completed.includes(q.name));
-      if (completedToday.length === 3 && !bonusGiven) {
+      if (completedToday.length === 2 && !bonusGiven) {
         awardBonusPoints();
         setBonusGiven(true);
       }
@@ -96,8 +99,8 @@ const DailyQuest = () => {
         transition={{ duration: 1 }}
       >
         <FaLeaf className={`fs-1 mb-3 ${theme === "dark" ? "text-success" : "text-primary"}`} />
-        <h2 className="fw-bold mb-3">Daily Eco Quests</h2>
-        <p className="mb-4">Complete today’s 3 eco-friendly actions to earn bonus points!</p>
+        <h2 className="fw-bold mb-3">Today's Eco Quests</h2>
+        <p className="mb-4">Complete today’s 2 eco-friendly actions to earn bonus points!</p>
 
         <ul className="list-group mb-4">
           {dailyQuests.map((quest) => (
@@ -120,9 +123,9 @@ const DailyQuest = () => {
 
         {dailyQuests.length > 0 && (
           <>
-            {dailyQuests.filter((q) => completed.includes(q.name)).length < 3 ? (
+            {dailyQuests.filter((q) => completed.includes(q.name)).length < 2 ? (
               <p className={`mt-3 fw-semibold ${theme === "dark" ? "text-white" : "text-muted"}`}>
-                ✅ Complete all 3 to unlock your daily bonus!
+                ✅ Complete all 2 to unlock your daily bonus!
               </p>
             ) : (
               <motion.p

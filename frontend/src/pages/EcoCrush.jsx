@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ for navigation
 import "./EcoCrush.css";
 
 export default function EcoCrush() {
-  const totalDays = 31;
-  const currentDay = 1; // first day unlocked
+  const totalDays = 30;
+  const currentDay = 1; // today (first day unlocked)
   const completedDays = currentDay - 1;
   const pathRef = useRef(null);
   const [positions, setPositions] = useState([]);
   const [showError, setShowError] = useState(false);
+  const navigate = useNavigate(); // ✅ useNavigate hook
 
   // Animate vine drawing
   useEffect(() => {
@@ -44,6 +46,17 @@ export default function EcoCrush() {
     return "eco-locked";
   };
 
+  // ✅ Handle click on any day circle
+  const handleDayClick = (day) => {
+    if (day === currentDay) {
+      navigate("/dailyquest"); // ✅ redirect to /dailyquest
+    } else if (day < currentDay) {
+      alert(`✅ You've already completed Day ${day}!`);
+    } else {
+      alert(`🔒 Day ${day} is locked. Complete previous days first!`);
+    }
+  };
+
   const handleClaim = () => {
     if (currentDay < totalDays) {
       setShowError(true);
@@ -60,11 +73,7 @@ export default function EcoCrush() {
           <h1 className="eco-title">EcoCrush – 30-Day Growth Path</h1>
 
           <div className="eco-snake-container">
-            <svg
-              className="eco-vine"
-              viewBox="0 0 100 200"
-              preserveAspectRatio="none"
-            >
+            <svg className="eco-vine" viewBox="0 0 100 200" preserveAspectRatio="none">
               <path
                 ref={pathRef}
                 d="
@@ -95,7 +104,9 @@ export default function EcoCrush() {
                   style={{
                     left: `${pos.x}%`,
                     top: `${pos.y}vh`,
+                    cursor: "pointer", // ✅ clickable cursor
                   }}
+                  onClick={() => handleDayClick(day)} // ✅ handle click
                 >
                   <div className={`eco-circle ${status}`}>
                     <span className="eco-number">{day}</span>
