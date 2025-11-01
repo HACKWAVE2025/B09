@@ -106,7 +106,7 @@ const LoginPage = () => {
           <FaLeaf
             className={`fs-1 ${theme === "dark" ? "text-success" : "text-primary"}`}
           />
-          <h3 className="mt-2 fw-bold">GoGreen Quest</h3>
+          <h3 className="mt-2 fw-bold">EcoQuest</h3>
           <p className="text-muted">Welcome back, Eco Hero!</p>
           {error && <div className="alert alert-danger">{error}</div>}
         </div>

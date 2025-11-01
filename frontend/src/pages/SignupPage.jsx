@@ -71,7 +71,7 @@ const SignupPage = () => {
           <FaLeaf
             className={`fs-1 ${theme === "dark" ? "text-success" : "text-primary"}`}
           />
-          <h3 className="mt-2 fw-bold">Join GoGreen Quest</h3>
+          <h3 className="mt-2 fw-bold">Join EcoQuest</h3>
           <p className="text-muted">Create your eco-friendly account 🌍</p>
         </div>
 
