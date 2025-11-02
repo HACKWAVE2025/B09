@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+
 export default function DrawerLayout() {
   const colorScheme = useColorScheme();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem("user");
+        if (storedUser) setUser(JSON.parse(storedUser));
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
     <Drawer
       screenOptions={{
@@ -17,7 +33,7 @@ export default function DrawerLayout() {
         name="HomeScreen"
         options={{
           title: "Home",
-          drawerIcon: ({ color, size }: { color: string; size: number }) => (
+          drawerIcon: ({ color, size }) => (
             <IconSymbol size={size} name="house.fill" color={color} />
           ),
         }}
@@ -26,7 +42,8 @@ export default function DrawerLayout() {
         name="LoginPage"
         options={{
           title: "Login",
-          drawerIcon: ({ color, size }: { color: string; size: number }) => (
+          drawerItemStyle: { display: user ? "none" : "flex" }, // 👈 Hide when logged in
+          drawerIcon: ({ color, size }) => (
             <Ionicons name="log-in-outline" size={size} color={color} />
           ),
         }}
@@ -35,7 +52,8 @@ export default function DrawerLayout() {
         name="Signup"
         options={{
           title: "Signup",
-          drawerIcon: ({ color, size }: { color: string; size: number }) => (
+          drawerItemStyle: { display: user ? "none" : "flex" }, // 👈 Hide when logged in
+          drawerIcon: ({ color, size }) => (
             <IconSymbol size={size} name="paperplane.fill" color={color} />
           ),
         }}
@@ -44,11 +62,42 @@ export default function DrawerLayout() {
         name="Leaderboard"
         options={{
           title: "Leaderboard",
-          drawerIcon: ({ color, size }: { color: string; size: number }) => (
+          drawerIcon: ({ color, size }) => (
             <Ionicons name="bar-chart" size={size} color={color} />
           ),
         }}
       />
+      <Drawer.Screen
+        name="EcoCrush"
+        options={{
+          title: "EcoCrush",
+          drawerItemStyle: { display: !user ? "none" : "flex" },
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="bar-chart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="ProfilePage"
+        options={{
+          title: "Profile",
+          drawerItemStyle: { display: !user ? "none" : "flex" },
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="bar-chart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Activities"
+        options={{
+          title: "Activities",
+          drawerItemStyle: { display: !user ? "none" : "flex" },
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="bar-chart" size={size} color={color} />
+          ),
+        }}
+      />
+      
     </Drawer>
   );
 }

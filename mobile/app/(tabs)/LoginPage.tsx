@@ -73,10 +73,19 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const closeFactAndRedirect = () => {
+  const closeFactAndRedirect = async () => {
     setShowFact(false);
-    navigation.navigate("HomeScreen");
+
+    // Ensure latest user is fetched from AsyncStorage
+    const user = await AsyncStorage.getItem("user");
+
+    // 🔁 Reset navigation so Drawer reloads with new user data
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "HomeScreen", params: { user: JSON.parse(user || "{}") } }],
+    });
   };
+
 
   if (!fontLoaded) {
     return (
