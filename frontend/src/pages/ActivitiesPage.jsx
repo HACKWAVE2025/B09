@@ -135,7 +135,7 @@ const ActivitiesPage = () => {
     formData.append("uploadTimestamp", uploadTimestamp);
 
     try {
-      const res = await fetch("http://localhost:5000/api/activities", {
+      const res = await fetch("https://b09-backend.onrender.com/api/activities", {
         method: "POST",
         body: formData,
       });

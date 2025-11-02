@@ -98,7 +98,7 @@ export default function EcoTaskPage({ day, onBack, onCompleteTask }) {
 
     try {
       // 🧾 Backend call to update progress
-      const res = await fetch("http://localhost:5000/api/users/complete-level", {
+      const res = await fetch("https://b09-backend.onrender.com/api/users/complete-level", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

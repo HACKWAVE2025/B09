@@ -126,7 +126,7 @@ export default function ActivitiesScreen() {
         } as any);
 
         try {
-            const res = await fetch("http://192.168.137.1:5000/api/activities", {
+            const res = await fetch("https://b09-backend.onrender.com/api/activities", {
                 method: "POST",
                 body: formData,
             });

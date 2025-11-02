@@ -20,7 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/leaderboard");
+        const res = await fetch("https://b09-backend.onrender.com//api/leaderboard");
         const data = await res.json();
         if (Array.isArray(data)) {
           const sorted = data.sort((a, b) => b.points - a.points);

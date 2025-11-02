@@ -85,7 +85,7 @@ export default function ProfilePage() {
 
         setLoadingSummary(true);
         try {
-            const res = await fetch("http://192.168.137.1:5000/api/summarize", {
+            const res = await fetch("https://b09-backend.onrender.com/api/summarize", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ activities: todaysActivities, name: user.name }),

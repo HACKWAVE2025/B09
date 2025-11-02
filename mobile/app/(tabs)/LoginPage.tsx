@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.137.1:5000/api/users/login", {
+      const res = await fetch("https://b09-backend.onrender.com/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
