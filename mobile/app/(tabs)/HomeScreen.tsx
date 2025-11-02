@@ -36,7 +36,7 @@ const HomePage: React.FC = () => {
 
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch("http://192.168.137.1:5000/api/leaderboard");
+        const res = await fetch("hhttps://b09-backend.onrender.com/api/leaderboard");
         const data = await res.json();
         if (Array.isArray(data)) {
           const sorted = data.sort((a, b) => b.points - a.points);

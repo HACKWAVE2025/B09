@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.137.1:5000/api/users/login", {
+      const res = await fetch("https://b09-backend.onrender.com/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -73,10 +73,19 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const closeFactAndRedirect = () => {
+  const closeFactAndRedirect = async () => {
     setShowFact(false);
-    navigation.navigate("HomeScreen");
+
+    // Ensure latest user is fetched from AsyncStorage
+    const user = await AsyncStorage.getItem("user");
+
+    // 🔁 Reset navigation so Drawer reloads with new user data
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "HomeScreen", params: { user: JSON.parse(user || "{}") } }],
+    });
   };
+
 
   if (!fontLoaded) {
     return (

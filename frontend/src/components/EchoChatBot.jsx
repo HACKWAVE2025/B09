@@ -61,7 +61,7 @@ const EcoChatBot = () => {
             {isOpen && (
                 <div className="chatbot-container">
                     <div className="chatbot-header">
-                        <h4>EcoBot 🌎</h4>
+                        <h4>EcoBot 🪴</h4>
                     </div>
 
                     <div className="chatbot-messages">

@@ -10,7 +10,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaders = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/leaderboard");
+        const res = await fetch("https://b09-backend.onrender.com//api/leaderboard");
         const data = await res.json();
         if (Array.isArray(data)) {
           const topTen = data.sort((a, b) => b.points - a.points).slice(0, 10);

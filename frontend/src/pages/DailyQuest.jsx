@@ -67,7 +67,7 @@ const DailyQuest = () => {
   // ✅ Bonus API
   const awardBonusPoints = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/bonus", {
+      const res = await fetch("https://b09-backend.onrender.com/api/bonus", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: user.name, bonusPoints: 100 }),

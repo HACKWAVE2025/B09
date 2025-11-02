@@ -38,7 +38,7 @@ const SignupPage: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.137.1:5000/api/users/register", {
+      const res = await fetch("https://b09-backend.onrender.com/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
