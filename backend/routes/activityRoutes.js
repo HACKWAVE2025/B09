@@ -1,23 +1,25 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
-import crypto from "crypto"; // ✅ for hashing
+import crypto from "crypto";
 import Activity from "../models/Activity.js";
 import User from "../models/User.js";
 import Badge from "../models/Badge.js";
 
 const router = express.Router();
 
-// Configure multer (in-memory storage)
+// ⚙️ Multer setup
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// ✅ Helper function to generate image hash
+// 🔐 Helper for image hashing
 const generateImageHash = (buffer) => {
   return crypto.createHash("sha256").update(buffer).digest("hex");
 };
 
-// ✅ Add Activity Endpoint with Geolocation, Timestamp, and Duplicate Check
+// ========================================================
+// ✅ POST /api/activities — Add new activity
+// ========================================================
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     let { name, type, points, co2Saved, latitude, longitude } = req.body;
@@ -29,74 +31,49 @@ router.post("/", upload.single("image"), async (req, res) => {
     }
 
     const user = await User.findOne({ name }).populate("badges");
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    // ===== Duplicate Image Detection =====
     let imageHash = null;
     if (req.file) {
       imageHash = generateImageHash(req.file.buffer);
-      console.log("🧩 Generated Image Hash:", imageHash);
-
-      // Check for existing duplicate
-      const duplicate = await Activity.findOne({
-        user: user._id,
-        imageHash,
-      });
-
-      if (duplicate) {
-        console.warn("⚠️ Duplicate image detected for user:", name);
-        return res.status(409).json({
-          message: "Duplicate image detected. Please upload a different photo.",
-        });
-      }
+      const duplicate = await Activity.findOne({ user: user._id, imageHash });
+      if (duplicate)
+        return res.status(409).json({ message: "Duplicate image detected" });
     }
 
-    // ===== Create activity object =====
     const activityData = {
       user: user._id,
       type,
       points,
       co2Saved,
-      uploadedAt: new Date(), // ✅ precise upload timestamp
+      uploadedAt: new Date(),
       location: {
         latitude: latitude ? Number(latitude) : null,
         longitude: longitude ? Number(longitude) : null,
       },
+      imageHash,
     };
 
     if (req.file) {
       activityData.image = req.file.buffer;
       activityData.imageType = req.file.mimetype;
-      activityData.imageHash = imageHash; // ✅ store image hash for future checks
     }
-
-    console.log("📸 Activity data ready to be saved:", {
-      name,
-      type,
-      points,
-      co2Saved,
-      latitude,
-      longitude,
-      uploadedAt: activityData.uploadedAt,
-      hasImage: !!req.file,
-    });
 
     const activity = await Activity.create(activityData);
 
-    // ===== Update user stats =====
+    // Update user stats
     user.points += points;
     user.calendar.push({
-      activityType: type,
+      activityType: type, // <---- consistent naming
       pointsEarned: points,
       co2Saved,
       date: new Date(),
     });
 
-    // ===== Badge logic =====
-    const allBadgesDocs = await Badge.find();
+    // Award badges
+    const allBadges = await Badge.find();
     const newBadges = [];
-
-    for (const badge of allBadgesDocs) {
+    for (const badge of allBadges) {
       const alreadyEarned = user.badges.some((b) =>
         new mongoose.Types.ObjectId(b._id || b).equals(badge._id)
       );
@@ -107,9 +84,6 @@ router.post("/", upload.single("image"), async (req, res) => {
     }
 
     await user.save();
-    const populatedUser = await user.populate("badges");
-
-    console.log("✅ Activity saved successfully for:", name);
 
     res.status(201).json({
       message: "Activity added successfully",
@@ -119,42 +93,81 @@ router.post("/", upload.single("image"), async (req, res) => {
           ? `data:${activity.imageType};base64,${activity.image.toString("base64")}`
           : null,
       },
-      newBadges: newBadges.map((b) => ({
-        name: b.name,
-        icon: b.icon,
-        threshold: b.threshold,
-      })),
-      allBadges: populatedUser.badges.map((b) => ({
-        name: b.name,
-        icon: b.icon,
-        threshold: b.threshold,
-      })),
       calendar: user.calendar,
     });
-  } catch (error) {
-    console.error("❌ Error adding activity:", error);
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    console.error("❌ Error adding activity:", err);
+    res.status(500).json({ message: err.message });
   }
 });
 
-// ✅ Get all activities of a user
+// ========================================================
+// ✅ GET /api/activities/today/:name — Get today's activities
+// ========================================================
+router.get("/today/:name", async (req, res) => {
+  try {
+    const { name } = req.params;
+    console.log(`🕒 Fetching today's activities for ${name}`);
+
+    const user = await User.findOne({ name });
+    if (!user) {
+      console.log("❌ User not found for", name);
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.calendar || user.calendar.length === 0) {
+      console.log("ℹ️ No calendar entries found for", name);
+      return res.json({ activities: [] });
+    }
+
+    const today = new Date();
+    const todayActivities = user.calendar.filter((entry) => {
+      const entryDate = new Date(entry.date);
+      return (
+        entryDate.getDate() === today.getDate() &&
+        entryDate.getMonth() === today.getMonth() &&
+        entryDate.getFullYear() === today.getFullYear()
+      );
+    });
+
+    console.log("📅 Raw todayActivities:", todayActivities);
+
+    const formatted = todayActivities.map((a) => ({
+      name: a.activityType || a.type || "Unknown",
+      pointsEarned: a.pointsEarned ?? 0,
+      co2Saved: a.co2Saved ?? 0,
+      date: a.date,
+    }));
+
+    console.log("✅ Sending formatted todayActivities:", formatted);
+
+    res.json({ activities: formatted });
+  } catch (err) {
+    console.error("🔥 Error in /today route:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ========================================================
+// ✅ POST /api/activities/user — Fetch all user activities
+// ========================================================
 router.post("/user", async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) return res.status(400).json({ message: "Name is required" });
 
     const user = await User.findOne({ name });
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     const activities = await Activity.find({ user: user._id }).sort({ date: -1 });
-    const formattedActivities = activities.map((a) => ({
+    const formatted = activities.map((a) => ({
       ...a.toObject(),
       imageSrc: a.image
         ? `data:${a.imageType};base64,${a.image.toString("base64")}`
         : null,
     }));
 
-    res.json({ activities: formattedActivities, badges: user.badges });
+    res.json({ activities: formatted, badges: user.badges });
   } catch (err) {
     console.error("❌ Error fetching user activities:", err);
     res.status(500).json({ message: err.message });
